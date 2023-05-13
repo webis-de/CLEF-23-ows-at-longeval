@@ -42,10 +42,10 @@ def main(num=10):
     ret = json.load(open(target_file))
     
     for query in queries:
-        if query in already_covered_queries.keys():
+        if query in ret.keys():
             continue
         
-        print('Process Query:' query)
+        print(f'Process Query: {query}')
         ret[query] = process_query(query)
         performed += 1
         
@@ -56,3 +56,4 @@ def main(num=10):
 
 if __name__ == '__main__':
     test_candidate_extraction()
+    main(10)
