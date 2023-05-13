@@ -34,7 +34,9 @@ def process_query(query):
     
     ret = 'tbd'
     
-    print('found candidates: {ret}')
+    print(f'found candidates: {ret}')
+    
+    return ret
     
 
 def main(num=10):
