@@ -29,10 +29,29 @@ def test_candidate_extraction():
     print('Candidate expansions correctly extracted.')
 
 
-def main(num):
+def process_query(query):
+    print(f'Process Query: {query}')
+    
+    ret = 'tbd'
+    
+    print('found candidates: {ret}')
+    
 
+def main(num=10):
+    performed = 0
+    ret = json.load(open(target_file))
+    
     for query in queries:
-        print(query)
+        if query in already_covered_queries.keys():
+            continue
+        
+        print('Process Query:' query)
+        ret[query] = process_query(query)
+        performed += 1
+        
+        if performed > num:
+            break
+    json.dump(ret, open(target_file, 'w'))
 
 
 if __name__ == '__main__':
