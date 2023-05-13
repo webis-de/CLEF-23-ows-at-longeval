@@ -6,6 +6,13 @@ build-docker-images:
 push-docker-images:
 	docker push mam10eks/ows-long-eval-ir-datasets-integration:${IMAGE_VERSION}
 
+produce-query-expansion:
+	docker run --rm -ti \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets \
+		-v $${PWD}/src:/workspace -w /workspace \
+		--entrypoint sh \
+		mam10eks/ows-long-eval-ir-datasets-integration:${IMAGE_VERSION}
+
 ir-datasets-index-train:
 	docker run --rm -ti \
 		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets \
