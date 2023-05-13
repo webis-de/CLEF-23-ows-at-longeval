@@ -37,3 +37,50 @@ ir-datasets-index-test-long-september:
 		mam10eks/ows-long-eval-ir-datasets-integration:${IMAGE_VERSION} \
 		inspect_long_eval_ir_datasets_test_long_september.py
 
+
+irds-export-train:
+	docker run --rm -ti \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v ${PWD}/src:/workspace \
+		-v /mnt/ceph/tira/data/datasets/training-datasets/ir-benchmarks/longeval-train-20230513-training:/out \
+		mam10eks/ows-long-eval-ir-datasets-integration:0.0.1 \
+		--ir_datasets_id longeval/train \
+		--output_dataset_path /out \
+		--skip_qrels true \
+		--include_original false
+
+
+irds-export-heldout:
+	docker run --rm -ti \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v ${PWD}/src:/workspace \
+		-v /mnt/ceph/tira/data/datasets/training-datasets/ir-benchmarks/longeval-heldout-20230513-training:/out \
+		mam10eks/ows-long-eval-ir-datasets-integration:0.0.1 \
+		--ir_datasets_id longeval/heldout \
+		--output_dataset_path /out \
+		--skip_qrels true \
+		--include_original false
+
+irds-export-short-july:
+	docker run --rm -ti \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v ${PWD}/src:/workspace \
+		-v /mnt/ceph/tira/data/datasets/training-datasets/ir-benchmarks/longeval-short-july-20230513-training:/out \
+		mam10eks/ows-long-eval-ir-datasets-integration:0.0.1 \
+		--ir_datasets_id longeval/a-short-july \
+		--output_dataset_path /out \
+		--skip_qrels true \
+		--include_original false
+
+irds-export-short-july:
+	docker run --rm -ti \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v ${PWD}/src:/workspace \
+		-v /mnt/ceph/tira/data/datasets/training-datasets/ir-benchmarks/longeval-long-september-20230513-training:/out \
+		mam10eks/ows-long-eval-ir-datasets-integration:0.0.1 \
+		--ir_datasets_id longeval/b-long-september \
+		--output_dataset_path /out \
+		--skip_qrels true \
+		--include_original false
+
+
