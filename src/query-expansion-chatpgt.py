@@ -33,17 +33,16 @@ def process_query(query):
     import openai
     print(f'Process Query: {query}')
     
-    
-    request = prompts["1"].replace('<ORIGINAL_QUERY>', query)
-    ret = request
-
-    #ret = openai.ChatCompletion.create(
-    #    model="gpt-3.5-turbo",
-    #    messages=[
-    #        {"role": "system", "content": "You are a helpful assistant."},
-    #        {"role": "user", "content": "Who won the world series in 2020?"}
-    #    ]
-    #)
+    request_prompt = "1"
+    request = prompts[request_prompt].replace('<ORIGINAL_QUERY>', query)
+    ret = {'request': request, 'request_prompt': request_prompt}
+    ret['gpt-3.5-turbo-response'] = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": request}
+        ]
+    )
 
     print(f'Response: {ret}')
     
@@ -58,7 +57,6 @@ def main(num=10):
         if query in ret.keys():
             continue
         
-        print(f'Process Query: {query}')
         ret[query] = process_query(query)
         performed += 1
         
