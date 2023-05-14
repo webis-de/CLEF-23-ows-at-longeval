@@ -1,4 +1,4 @@
 {
-  "1": "User I wanted to search on google for \"<ORIGINAL_QUERY>\" but I was not able to retrieve relevant documents. Please recommend me keywords that I should additionally add to my query.",
+  "1": "I wanted to search on google for \"<ORIGINAL_QUERY>\" but I was not able to retrieve relevant documents. Please recommend me keywords that I should additionally add to my query.",
   "2": "I wanted to search the web for \"unlicensed car insurance\" but I was not able to find relevant documents. Please recommend me keywords that I should add to my query."
 }

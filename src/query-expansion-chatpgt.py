@@ -30,11 +30,22 @@ def test_candidate_extraction():
 
 
 def process_query(query):
+    import openai
     print(f'Process Query: {query}')
     
-    ret = 'tbd'
     
-    print(f'found candidates: {ret}')
+    request = prompts["1"].replace('<ORIGINAL_QUERY>', query)
+    ret = request
+
+    #ret = openai.ChatCompletion.create(
+    #    model="gpt-3.5-turbo",
+    #    messages=[
+    #        {"role": "system", "content": "You are a helpful assistant."},
+    #        {"role": "user", "content": "Who won the world series in 2020?"}
+    #    ]
+    #)
+
+    print(f'Response: {ret}')
     
     return ret
     
