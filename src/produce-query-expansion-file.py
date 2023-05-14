@@ -60,6 +60,23 @@ def test_candidate_extraction():
 
     print('Candidate expansions correctly extracted.')
 
+def main():
+   files = ['query-expansions-from-chatgpt-raw-prompt-01.json']
+   ret = {}
+   
+   for f in files:
+       for k,v in json.load(open(f, 'r')).items():
+           request_prompt = v['request_prompt']
+           if request_prompt not in ret:
+               ret[request_prompt] = {}
+           assert k not in ret[request_prompt]
+           
+           ret[request_prompt][k] = extract_candidate_expansions(v['gpt-3.5-turbo-response']['choices'][0]['message']['content'])
+   
+   json.dump(ret, open('query-expansions.json', 'w'), indent=2)
+   
+
 if __name__ == '__main__':
     test_candidate_extraction()
+    main()
 
