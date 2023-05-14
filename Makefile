@@ -103,3 +103,63 @@ irds-export-long-september:
 		--include_original false
 
 
+
+bm25-plain-long:
+	docker run --rm -ti \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "$${PWD}/src":/home/jovyan/work \
+		-w /home/jovyan/work \
+		--entrypoint ./plain-rerank.py \
+		webis/tira-ir-starter-pyterrier:0.0.2-base \
+		longeval-long-september-20230513-training BM25
+
+bm25-plain-short:
+	docker run --rm -ti \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "$${PWD}/src":/home/jovyan/work \
+		-w /home/jovyan/work \
+		--entrypoint ./plain-rerank.py \
+		webis/tira-ir-starter-pyterrier:0.0.2-base \
+		longeval-short-july-20230513-training BM25
+
+bm25-plain-short:
+	docker run --rm -ti \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "$${PWD}/src":/home/jovyan/work \
+		-w /home/jovyan/work \
+		--entrypoint ./plain-rerank.py \
+		webis/tira-ir-starter-pyterrier:0.0.2-base \
+		longeval-train-20230513-training BM25
+
+bm25-query-variant-long:
+	docker run --rm -ti \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "$${PWD}/src":/home/jovyan/work \
+		-w /home/jovyan/work \
+		--entrypoint ./query-variant-rerank.py \
+		webis/tira-ir-starter-pyterrier:0.0.2-base \
+		longeval-long-september-20230513-training BM25
+
+bm25-query-variant-short:
+	docker run --rm -ti \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "$${PWD}/src":/home/jovyan/work \
+		-w /home/jovyan/work \
+		--entrypoint ./query-variant-rerank.py \
+		webis/tira-ir-starter-pyterrier:0.0.2-base \
+		longeval-short-july-20230513-training BM25
+
+bm25-query-variant-short:
+	docker run --rm -ti \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "$${PWD}/src":/home/jovyan/work \
+		-w /home/jovyan/work \
+		--entrypoint ./query-variant-rerank.py \
+		webis/tira-ir-starter-pyterrier:0.0.2-base \
+		longeval-train-20230513-training BM25
