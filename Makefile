@@ -1,10 +1,17 @@
-IMAGE_VERSION=0.0.1
+IMAGE_VERSION=0.0.2
 
 build-docker-images:
 	docker build -t mam10eks/ows-long-eval-ir-datasets-integration:${IMAGE_VERSION} -f src/Dockerfile.ir_datasets src
 
 push-docker-images:
 	docker push mam10eks/ows-long-eval-ir-datasets-integration:${IMAGE_VERSION}
+
+jupyter:
+	docker run --rm -ti -p 8888:8888 \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v "${PWD}":/home/jovyan/work \
+		--entrypoint jupyter mam10eks/ows-long-eval-ir-datasets-integration:${IMAGE_VERSION} \
+		notebook --allow-root --ip 0.0.0.0
 
 produce-query-expansion:
 	docker run --rm -ti \
@@ -72,7 +79,7 @@ irds-export-short-july:
 		--skip_qrels true \
 		--include_original false
 
-irds-export-short-july:
+irds-export-long-september:
 	docker run --rm -ti \
 		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
 		-v ${PWD}/src:/workspace \
