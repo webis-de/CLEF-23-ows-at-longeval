@@ -11,7 +11,6 @@ import pyterrier as pt
 
 if not pt.started():
     # needed in the image so that pyterrier can find the shared libs
-    !ln -s /usr/lib/jvm/java-11-openjdk/lib/server/libjvm.so /usr/lib/jvm/java-11-openjdk/lib/
     pt.init()
 
 def rerank(rerank_data, wmodel):
