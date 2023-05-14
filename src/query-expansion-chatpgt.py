@@ -60,7 +60,8 @@ def main(num=10):
         try:
             ret[query] = process_query(query)
             performed += 1
-        except:
+        except Exception as e:
+            print(e)
             break
         
         if performed > num:
