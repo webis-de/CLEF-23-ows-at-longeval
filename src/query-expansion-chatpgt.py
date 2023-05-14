@@ -67,4 +67,4 @@ def main(num=10):
 
 if __name__ == '__main__':
     test_candidate_extraction()
-    main(10)
+    main(100)
