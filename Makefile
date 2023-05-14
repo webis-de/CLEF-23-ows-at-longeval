@@ -124,7 +124,7 @@ bm25-plain-short:
 		webis/tira-ir-starter-pyterrier:0.0.2-base \
 		longeval-short-july-20230513-training BM25
 
-bm25-plain-short:
+bm25-plain-train:
 	docker run --rm -ti \
 		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
 		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
@@ -154,7 +154,7 @@ bm25-query-variant-short:
 		webis/tira-ir-starter-pyterrier:0.0.2-base \
 		longeval-short-july-20230513-training BM25
 
-bm25-query-variant-short:
+bm25-query-variant-train:
 	docker run --rm -ti \
 		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
 		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
