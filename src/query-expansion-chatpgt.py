@@ -57,14 +57,18 @@ def main(num=10):
         if query in ret.keys():
             continue
         
-        ret[query] = process_query(query)
-        performed += 1
+        try:
+            ret[query] = process_query(query)
+            performed += 1
+        except:
+            break
         
         if performed > num:
             break
+
     json.dump(ret, open(target_file, 'w'))
 
 
 if __name__ == '__main__':
     test_candidate_extraction()
-    main(100)
+    main(1000)
