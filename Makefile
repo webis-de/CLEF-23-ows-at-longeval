@@ -9,7 +9,9 @@ push-docker-images:
 jupyter:
 	docker run --rm -ti -p 8888:8888 \
 		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
-		-v "${PWD}":/home/jovyan/work \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "${PWD}/src":/home/jovyan/work \
+		-w /home/jovyan/work \
 		--entrypoint jupyter mam10eks/ows-long-eval-ir-datasets-integration:${IMAGE_VERSION} \
 		notebook --allow-root --ip 0.0.0.0
 
