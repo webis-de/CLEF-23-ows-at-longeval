@@ -5,7 +5,7 @@ import re
 
 target_file = 'query-expansions-from-chatgpt-raw.json'
 prompts = json.load(open('query-expansion-prompts.json'))
-datasets = ['longeval/heldout', 'longeval/a-short-july', 'longeval/b-long-september']
+datasets = ['longeval/train', 'longeval/heldout', 'longeval/a-short-july', 'longeval/b-long-september']
 queries = sorted(list(set([q.text.strip() for d in datasets for q in ir_datasets.load(d).queries_iter()])))
 
 # Regex that looks for lines in enumerated list:
