@@ -33,7 +33,7 @@ def process_query(query):
     import openai
     print(f'Process Query: {query}')
     
-    request_prompt = "1"
+    request_prompt = "2"
     request = prompts[request_prompt].replace('<ORIGINAL_QUERY>', query)
     ret = {'request': request, 'request_prompt': request_prompt}
     ret['gpt-3.5-turbo-response'] = openai.ChatCompletion.create(
