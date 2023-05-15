@@ -20,6 +20,7 @@ retrieval-jupyter:
 		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
 		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
 		-v "$${PWD}/src":/home/jovyan/work \
+		-v /mnt/ceph/tira:/mnt/ceph/tira:ro \
 		-w /home/jovyan/work \
 		--entrypoint jupyter \
 		webis/tira-ir-starter-pyterrier:0.0.2-base \
