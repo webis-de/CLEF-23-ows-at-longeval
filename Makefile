@@ -178,3 +178,179 @@ bm25-query-variant-heldout:
 		--entrypoint ./query-variant-rerank.py \
 		webis/tira-ir-starter-pyterrier:0.0.2-base \
 		longeval-heldout-20230513-training BM25
+
+dph-query-variant-long:
+	docker run --rm -ti \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "$${PWD}/src":/home/jovyan/work \
+		-v /mnt/ceph/tira:/mnt/ceph/tira:ro \
+		-w /home/jovyan/work \
+		--entrypoint ./query-variant-rerank.py \
+		webis/tira-ir-starter-pyterrier:0.0.2-base \
+		longeval-long-september-20230513-training DPH
+
+dph-query-variant-short:
+	docker run --rm -ti \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "$${PWD}/src":/home/jovyan/work \
+		-v /mnt/ceph/tira:/mnt/ceph/tira:ro \
+		-w /home/jovyan/work \
+		--entrypoint ./query-variant-rerank.py \
+		webis/tira-ir-starter-pyterrier:0.0.2-base \
+		longeval-short-july-20230513-training DPH
+
+dph-query-variant-train:
+	docker run --rm -ti \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "$${PWD}/src":/home/jovyan/work \
+		-v /mnt/ceph/tira:/mnt/ceph/tira:ro \
+		-w /home/jovyan/work \
+		--entrypoint ./query-variant-rerank.py \
+		webis/tira-ir-starter-pyterrier:0.0.2-base \
+		longeval-train-20230513-training DPH
+
+dph-query-variant-heldout:
+	docker run --rm -ti \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "$${PWD}/src":/home/jovyan/work \
+		-v /mnt/ceph/tira:/mnt/ceph/tira:ro \
+		-w /home/jovyan/work \
+		--entrypoint ./query-variant-rerank.py \
+		webis/tira-ir-starter-pyterrier:0.0.2-base \
+		longeval-heldout-20230513-training DPH
+
+lgd-query-variant-long:
+	docker run --rm -ti \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "$${PWD}/src":/home/jovyan/work \
+		-v /mnt/ceph/tira:/mnt/ceph/tira:ro \
+		-w /home/jovyan/work \
+		--entrypoint ./query-variant-rerank.py \
+		webis/tira-ir-starter-pyterrier:0.0.2-base \
+		longeval-long-september-20230513-training LGD
+
+lgd-query-variant-short:
+	docker run --rm -ti \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "$${PWD}/src":/home/jovyan/work \
+		-v /mnt/ceph/tira:/mnt/ceph/tira:ro \
+		-w /home/jovyan/work \
+		--entrypoint ./query-variant-rerank.py \
+		webis/tira-ir-starter-pyterrier:0.0.2-base \
+		longeval-short-july-20230513-training LGD
+
+lgd-query-variant-train:
+	docker run --rm -ti \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "$${PWD}/src":/home/jovyan/work \
+		-v /mnt/ceph/tira:/mnt/ceph/tira:ro \
+		-w /home/jovyan/work \
+		--entrypoint ./query-variant-rerank.py \
+		webis/tira-ir-starter-pyterrier:0.0.2-base \
+		longeval-train-20230513-training LGD
+
+lgd-query-variant-heldout:
+	docker run --rm -ti \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "$${PWD}/src":/home/jovyan/work \
+		-v /mnt/ceph/tira:/mnt/ceph/tira:ro \
+		-w /home/jovyan/work \
+		--entrypoint ./query-variant-rerank.py \
+		webis/tira-ir-starter-pyterrier:0.0.2-base \
+		longeval-heldout-20230513-training LGD
+
+pl2-query-variant-long:
+	docker run --rm -ti \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "$${PWD}/src":/home/jovyan/work \
+		-v /mnt/ceph/tira:/mnt/ceph/tira:ro \
+		-w /home/jovyan/work \
+		--entrypoint ./query-variant-rerank.py \
+		webis/tira-ir-starter-pyterrier:0.0.2-base \
+		longeval-long-september-20230513-training PL2
+
+pl2-query-variant-short:
+	docker run --rm -ti \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "$${PWD}/src":/home/jovyan/work \
+		-v /mnt/ceph/tira:/mnt/ceph/tira:ro \
+		-w /home/jovyan/work \
+		--entrypoint ./query-variant-rerank.py \
+		webis/tira-ir-starter-pyterrier:0.0.2-base \
+		longeval-short-july-20230513-training PL2
+
+pl2-query-variant-train:
+	docker run --rm -ti \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "$${PWD}/src":/home/jovyan/work \
+		-v /mnt/ceph/tira:/mnt/ceph/tira:ro \
+		-w /home/jovyan/work \
+		--entrypoint ./query-variant-rerank.py \
+		webis/tira-ir-starter-pyterrier:0.0.2-base \
+		longeval-train-20230513-training PL2
+
+pl2-query-variant-heldout:
+	docker run --rm -ti \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "$${PWD}/src":/home/jovyan/work \
+		-v /mnt/ceph/tira:/mnt/ceph/tira:ro \
+		-w /home/jovyan/work \
+		--entrypoint ./query-variant-rerank.py \
+		webis/tira-ir-starter-pyterrier:0.0.2-base \
+		longeval-heldout-20230513-training PL2
+
+dirichlet-query-variant-long:
+	docker run --rm -ti \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "$${PWD}/src":/home/jovyan/work \
+		-v /mnt/ceph/tira:/mnt/ceph/tira:ro \
+		-w /home/jovyan/work \
+		--entrypoint ./query-variant-rerank.py \
+		webis/tira-ir-starter-pyterrier:0.0.2-base \
+		longeval-long-september-20230513-training DirichletLM
+
+dirichlet-query-variant-short:
+	docker run --rm -ti \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "$${PWD}/src":/home/jovyan/work \
+		-v /mnt/ceph/tira:/mnt/ceph/tira:ro \
+		-w /home/jovyan/work \
+		--entrypoint ./query-variant-rerank.py \
+		webis/tira-ir-starter-pyterrier:0.0.2-base \
+		longeval-short-july-20230513-training DirichletLM
+
+dirichlet-query-variant-train:
+	docker run --rm -ti \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "$${PWD}/src":/home/jovyan/work \
+		-v /mnt/ceph/tira:/mnt/ceph/tira:ro \
+		-w /home/jovyan/work \
+		--entrypoint ./query-variant-rerank.py \
+		webis/tira-ir-starter-pyterrier:0.0.2-base \
+		longeval-train-20230513-training DirichletLM
+
+dirichlet-query-variant-heldout:
+	docker run --rm -ti \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "$${PWD}/src":/home/jovyan/work \
+		-v /mnt/ceph/tira:/mnt/ceph/tira:ro \
+		-w /home/jovyan/work \
+		--entrypoint ./query-variant-rerank.py \
+		webis/tira-ir-starter-pyterrier:0.0.2-base \
+		longeval-heldout-20230513-training DirichletLM
