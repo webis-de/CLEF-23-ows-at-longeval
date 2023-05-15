@@ -140,6 +140,7 @@ bm25-query-variant-long:
 		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
 		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
 		-v "$${PWD}/src":/home/jovyan/work \
+		-v /mnt/ceph/tira:/mnt/ceph/tira:ro \
 		-w /home/jovyan/work \
 		--entrypoint ./query-variant-rerank.py \
 		webis/tira-ir-starter-pyterrier:0.0.2-base \
@@ -150,6 +151,7 @@ bm25-query-variant-short:
 		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
 		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
 		-v "$${PWD}/src":/home/jovyan/work \
+		-v /mnt/ceph/tira:/mnt/ceph/tira:ro \
 		-w /home/jovyan/work \
 		--entrypoint ./query-variant-rerank.py \
 		webis/tira-ir-starter-pyterrier:0.0.2-base \
@@ -160,7 +162,19 @@ bm25-query-variant-train:
 		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
 		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
 		-v "$${PWD}/src":/home/jovyan/work \
+		-v /mnt/ceph/tira:/mnt/ceph/tira:ro \
 		-w /home/jovyan/work \
 		--entrypoint ./query-variant-rerank.py \
 		webis/tira-ir-starter-pyterrier:0.0.2-base \
 		longeval-train-20230513-training BM25
+
+bm25-query-variant-heldout:
+	docker run --rm -ti \
+		-v /mnt/ceph/storage/data-tmp/current/kibi9872/pan-code/semeval23/.tira:/root/.tira \
+		-v /mnt/ceph/tira/state/ir_datasets/:/root/.ir_datasets:ro \
+		-v "$${PWD}/src":/home/jovyan/work \
+		-v /mnt/ceph/tira:/mnt/ceph/tira:ro \
+		-w /home/jovyan/work \
+		--entrypoint ./query-variant-rerank.py \
+		webis/tira-ir-starter-pyterrier:0.0.2-base \
+		longeval-heldout-20230513-training BM25
