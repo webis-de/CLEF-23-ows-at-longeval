@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import sys
 from tira.rest_api_client import Client
 import pandas as pd
 from tqdm import tqdm
