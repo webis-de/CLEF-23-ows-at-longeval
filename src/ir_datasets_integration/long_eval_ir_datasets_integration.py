@@ -33,14 +33,17 @@ ir_datasets.registry.register('longeval/train', Dataset(
 ir_datasets.registry.register('longeval/heldout', Dataset(
     LongEvalDocs('/root/.ir_datasets/longeval/publish/English/Documents/Trec/'),
     TsvQueries(LocalDownload(Path('/root/.ir_datasets/longeval/publish/English/Queries/heldout.tsv'))),
+    TrecQrels(LocalDownload(Path('/root/.ir_datasets/longeval/longeval-relevance-judgements/heldout-test.txt')), {0: 'Not Relevant', 1: 'Relevant', 2: 'Highly Relevant'})
 ))
 
 ir_datasets.registry.register('longeval/a-short-july', Dataset(
     LongEvalDocs('/root/.ir_datasets/longeval/test-collection/A-Short-July/English/Documents/Trec/'),
     TsvQueries(LocalDownload(Path('/root/.ir_datasets/longeval/test-collection/A-Short-July/English/Queries/test07.tsv'))),
+    TrecQrels(LocalDownload(Path('/root/.ir_datasets/longeval/longeval-relevance-judgements/a-short-july.txt')), {0: 'Not Relevant', 1: 'Relevant', 2: 'Highly Relevant'})
 ))
 
 ir_datasets.registry.register('longeval/b-long-september', Dataset(
     LongEvalDocs('/root/.ir_datasets/longeval/test-collection/B-Long-September/English/Documents/Trec/'),
     TsvQueries(LocalDownload(Path('/root/.ir_datasets/longeval/test-collection/B-Long-September/English/Queries/test09.tsv'))),
+    TrecQrels(LocalDownload(Path('/root/.ir_datasets/longeval/longeval-relevance-judgements/b-long-september.txt')), {0: 'Not Relevant', 1: 'Relevant', 2: 'Highly Relevant'})
 ))
