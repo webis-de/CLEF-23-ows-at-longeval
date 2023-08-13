@@ -10,6 +10,7 @@ from tira.third_party_integrations import ensure_pyterrier_is_loaded, load_reran
 import pyterrier as pt
 from trectools import TrecRun, fusion
 import pandas as pd
+import os
 sep = '___'
 
 ensure_pyterrier_is_loaded()
@@ -84,7 +85,7 @@ def run_retrieval(queries, input_run, wmodel, query_variants, output_directory):
     index_directory = Path(input_run) / '2' / 'index'
     import os
     print(os.listdir(index_directory))
-    index = pt.IndexFactory.of(str(index_directory))
+    index = pt.IndexFactory.of(str(os.path.abspath(str(index_directory)))
     
     print(f'Load Data from {index_directory} to re-rank with {wmodel}.')
     rerank_data = expanded_data(queries, input_run, query_variants)
