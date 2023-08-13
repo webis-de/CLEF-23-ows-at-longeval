@@ -7,32 +7,62 @@ import ir_datasets
 import json
 from pathlib import Path
 from tira.third_party_integrations import ensure_pyterrier_is_loaded, load_rerank_data, normalize_run
-
-datasets = {
-    'longeval/heldout': 'longeval-heldout-20230513-training',
-    'longeval/b-long-september': 'longeval-long-september-20230513-training',
-    'longeval/a-short-july': 'longeval-short-july-20230513-training',
-    'longeval/train': 'longeval-train-20230513-training'
-}
-
-dataset_to_index = {
-    'longeval-short-july-20230513-training': '/mnt/ceph/tira/data/runs/longeval-short-july-20230513-training/ows/2023-05-13-19-41-17/output/index/data.properties',
-    'longeval-train-20230513-training': '/mnt/ceph/tira/data/runs/longeval-train-20230513-training/ows/2023-05-13-19-40-07/output/index/data.properties',
-    'longeval-heldout-20230513-training': '/mnt/ceph/tira/data/runs/longeval-heldout-20230513-training/ows/./2023-05-13-19-40-24/output/index/data.properties',
-    'longeval-long-september-20230513-training': '/mnt/ceph/tira/data/runs/longeval-long-september-20230513-training/ows/2023-05-13-19-40-47/output/index/data.properties',
-}
-
 import pyterrier as pt
+from trectools import TrecRun, fusion
+import pandas as pd
+sep = '___'
 
-if not pt.started():
-    pt.init()
+ensure_pyterrier_is_loaded()
 
-def expanded_data(rerank_data, expansion_prompt, num_expansions):
-    rerank_data = pt.io.read_topics(f'/mnt/ceph/tira/data/datasets/training-datasets/ir-benchmarks/{rerank_data}/queries.xml', 'trecxml')
-    additional_rerank_data = []
-    expansions = json.load(open('query-variants.json', 'r'))[expansion_prompt]
+
+def to_trec_run(r):
+    from trectools import TrecRun
+    import pandas as pd
+    tr = TrecRun()
+    tr.run_data = r.copy()
+    tr.run_data['query'] = tr.run_data['qid'].apply(lambda i: i.split(sep)[0])
+    tr.run_data['docid'] = tr.run_data['docno']
     
-    for _, i in rerank_data.iterrows():
+    print(f'Created run with {len(tr.run_data)} lines')
+    
+    return tr
+
+
+def reciprocal_rank_fusion(run, num_runs=20):
+    all_runs = []
+    
+    print(f'Process run with {len(run)} lines.')
+    
+    r = []
+    
+    all_runs += [to_trec_run(run[~run['qid'].str.contains(sep)])]
+    assert len(all_runs[0].run_data) > 0
+    
+    for run_id in range(0, num_runs +1):
+        r = run[run['qid'].str.endswith(f'{sep}{run_id}')]
+
+        if len(r) < 1:
+            continue
+
+        all_runs += [to_trec_run(r)]
+        print(f'Run with id {run_id} has {len(r)} documents')
+
+    print(f'Fuse {len(all_runs)} runs')
+    fused_run = fusion.reciprocal_rank_fusion(all_runs)
+    fused_run = fused_run.run_data
+
+    fused_run['qid'] = fused_run['query']
+    del fused_run['query']
+    fused_run['docno'] = fused_run['docid']
+    del fused_run['docid']
+    return fused_run
+
+
+def expanded_data(queries, input_run, num_expansions):
+    additional_rerank_data = []
+    expansions = json.load(open(Path(input_run) / '1' / 'predictions.jsonl', 'r'))
+    
+    for _, i in queries.iterrows():
         expansions_for_query = expansions.get(i['query'].strip(), [])
         expansions_for_query = [i for i in expansions_for_query if len(i.split(' ')) > 1]
         
@@ -46,22 +76,20 @@ def expanded_data(rerank_data, expansion_prompt, num_expansions):
             i_exp['query'] = expansion
             additional_rerank_data += [i_exp]
         
-    return pd.concat([rerank_data, pd.DataFrame(additional_rerank_data)])
+    return pd.concat([queries, pd.DataFrame(additional_rerank_data)])
 
-def rerank_expansion(rerank_data, wmodel, query_variants, expansion_prompt):
-    output_directory = Path(rerank_data) / 'query-variant-runs'
-    output_file =  output_directory / f'{wmodel}-{query_variants}-variants-prompt-{expansion_prompt}-run.txt.gz'
+
+def run_retrieval(queries, input_run, wmodel, query_variants, output_directory):
+    output_file =  Path(output_directory) / 'run.txt'
+    index_directory = Path(input_run) / '2' / 'index'
+    import os
+    print(os.listdir(index_directory))
+    index = pt.IndexFactory.of(str(index_directory))
     
-    print(f'Use output {output_file}')
-    if output_file.exists():
-        print('Already exists')
-        return
-    
-    index = pt.IndexFactory.of(dataset_to_index[rerank_data])
-    
-    print(f'Load Data from {rerank_data} to re-rank with {wmodel}.')
-    rerank_data = expanded_data(rerank_data, expansion_prompt, query_variants)
+    print(f'Load Data from {index_directory} to re-rank with {wmodel}.')
+    rerank_data = expanded_data(queries, input_run, query_variants)
     rerank_data['query'] = rerank_data['query'].apply(lambda i: "".join([x if x.isalnum() else " " for x in i]))
+    rerank_data.to_json(Path(output_directory) / 'rerank-data.jsonl', lines=True, orient='records')
     
     print('Ranking...')
     pipeline = pt.text.scorer(wmodel=wmodel, verbose=True, body_attr='text')
@@ -69,16 +97,19 @@ def rerank_expansion(rerank_data, wmodel, query_variants, expansion_prompt):
     pipeline = pt.BatchRetrieve(index, wmodel=wmodel, verbose=True)
     
     result = pipeline(rerank_data)
-
-    print(f'writing run file to:\t{output_file}')
+    
+    print('Fuse results...')
+    result = reciprocal_rank_fusion(result)
     Path(output_directory).mkdir(parents=True, exist_ok=True)
-    pt.io.write_results(normalize_run(result, 1000), output_file, run_name=wmodel)
+    print(f'writing run file to:\t{output_file}')
+    pt.io.write_results(normalize_run(result, 1000), Path(output_directory) / 'run.txt', run_name=f'ows-{wmodel}-{query_variants}-variants')
 
 
 if __name__ == '__main__':
-    rerank_data = sys.argv[1]
-    wmodel = sys.argv[2]
-    for prompt in ['1', '2']:
-        for num_query_variants in [3, 5, 10]:
-            rerank_expansion(rerank_data, wmodel, num_query_variants, prompt)
+    queries = pt.io.read_topics(f'{sys.argv[1]}/queries.xml', 'trecxml')
+    input_run = sys.argv[2]
+    wmodel = sys.argv[3]
+    num_query_variants = int(sys.argv[4])
+    output_directory = sys.argv[5]
+    run_retrieval(queries, input_run, wmodel, num_query_variants, output_directory)
 
